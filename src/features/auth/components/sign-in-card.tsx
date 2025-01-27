@@ -9,7 +9,7 @@ import { Card,
     CardHeader, 
     CardTitle
 } from "@/components/ui/card";
-
+import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,22 +19,21 @@ import {
     FormItem,
     FormMessage,
 } from "@/components/ui/form";
+import { loginSchema } from "../schemas";
+import { log } from "console";
 
-const formSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(1, "Required"),
-});
 
 export const SignInCard = () => {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    
+    const form = useForm<z.infer<typeof loginSchema>>({
+        resolver: zodResolver(loginSchema),
         defaultValues: {
             email: "",
             password: "",
         },
     });
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
+    const onSubmit = (values: z.infer<typeof loginSchema>) => {
         console.log(values);
     }
     
@@ -112,6 +111,18 @@ export const SignInCard = () => {
                     <FaGithub className="mr-2 size-5" />
                     Login with Github
                 </Button>
+            </CardContent>
+            <div className="px-7">
+                <DottedSeperator />
+            </div>
+            <CardContent className="p-7 flex items-center justify-center">
+                <p>
+                    Don&apos;t have an account?
+                    <Link href="/sign-up">
+                        <span className="text-blue-700">&nbsp;Sign Up</span>
+                    </Link>
+                </p>
+
             </CardContent>
         </Card>
     );
